@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<!-- Баннер-->
+{% include "shop/components/_banner.html" %}
+
+
+<!-- Категории -->
+{% include "shop/components/_categories.html" %}
+
+
+<!-- Популярные товары -->
+{% include "shop/components/_trending_products.html" %}
+
+
+<!-- Преимущества -->
+{% include "shop/components/_advanteges.html" %}
+
+
+<!-- Секция email-рассылки -->
+{% include "shop/components/_newsletter.html" %}
+
+
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4 mb-5">
+    {% if messages %}
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                 </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    <form method="post">  
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Контактная информация</h2>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Имя</label>
+                                {{ customer_form.first_name }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Фамилия</label>
+                                {{ customer_form.last_name }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Телефон</label>
+                                {{ customer_form.phone }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                {{ customer_form.email }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Адрес доставки</h2>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Город</label>
+                                {{ shipping_form.city }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Район</label>
+                                {{ shipping_form.state }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Улица и дом</label>
+                            {{ shipping_form.street }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card sticky-top" style="top: 20px;">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Ваш заказ</h2>
+                        
+                        <div class="mb-3">
+                            <h5>Товары</h5>
+                            {% for item in order_products %}
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>{{ item.product.title }} × {{ item.quantity }}</span>
+                                    <span>{{ item.get_total_price|floatformat:0 }} $</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <hr>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Сумма заказа:</span>
+                                <span>{{ cart_total_price|floatformat:0 }} $</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Доставка:</span>
+                                <span>
+                                    {% if cart_total_price > 2000 %}
+                                        Бесплатно
+                                    {% else %}
+                                        {{ delivery_cost|floatformat:0 }} $
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between fw-bold mb-4">
+                            <span class="fs-5">Итого:</span>
+                            <span class="fs-5">
+                                {{ total_to_pay|floatformat:0 }} $
+                            </span>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                            Подтвердить заказ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

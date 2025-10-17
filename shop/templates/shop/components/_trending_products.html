@@ -1,0 +1,25 @@
+{% load static %}
+<section class="container mb-5">
+    <h2 class="text-center mb-5 display-4 fw-bold">Популярные товары</h2>
+
+    <div class="row g-4">
+        
+        {% for product in top_products %}
+            {% include "shop/components/_product_item.html" %}
+        {% endfor %}
+        
+    </div>
+    {% with random_category=categories|random %}
+        <div class="text-center mt-4">
+            <a href="{{ random_category.get_absolute_url }}" class="btn btn-primary px-4 py-2">Больше товаров →</a>
+        </div>
+    {% endwith %}
+
+<style>
+    .wide-product-card {
+        max-width: 400px;  /* Фиксированная ширина */
+        margin: 0 auto;   /* Центрирование */
+    }
+</style>
+
+</section>

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4" style="min-height: 80vh; position: relative; padding-bottom: 80px;">
+    <div class="row justify-content-center">
+        <div class="col-12 text-center mb-5">
+            <h1 class="display-4 font-weight-bold text-primary position-relative">
+                <span class="position-relative">
+                    Мои избранные товары
+                </span>
+            </h1>
+            <p class="lead text-muted mt-3">
+                Здесь собраны все товары, которые Вы добавили в избранное
+            </p>
+        </div>
+        
+        {% if products %}
+            <!-- Контейнер для товаров -->
+                {% for product in products %}
+                    {% include "shop/components/_product_card.html" %}
+                {% endfor %}      
+            {% else %}
+            <div class="col-12 text-center py-5">
+                        <div class="alert alert-light border" role="alert">
+                            <i class="bi bi-heart-fill text-danger h3"></i>
+                            <h4 class="mt-2">Список избранного пуст</h4>
+                            <p class="mb-0">Начните добавлять товары, нажимая на значок ♡</p>
+                        </div>
+                    </div>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Пагинация. Прикрепляем к низу странички -->
+    <nav aria-label="Page navigation" style="position: absolute; bottom: 20px; left: 0; right: 0;">
+        <ul class="pagination justify-content-center shadow-sm">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                    <i class="bi bi-chevron-left"></i> Назад
+                </a>
+            </li>
+            <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">
+                    Вперед <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}

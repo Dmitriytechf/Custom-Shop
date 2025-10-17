@@ -1,0 +1,13 @@
+{% load static %}
+
+{% if product %}
+    {% include "shop/components/_product_item.html" %}
+{% elif products %}
+    <div class="col-md-9 col-lg-10">
+        <div class="row">
+            {% for product in products %}
+                {% include "shop/components/_product_item.html" %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}

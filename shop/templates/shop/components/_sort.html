@@ -1,0 +1,118 @@
+{% load static %}
+{% load shop_tags %}
+{% get_subcategories category as categories %}
+{% get_sorted  as data %}
+<!-- Сайдбар с категориями -->
+<div class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky pt-3">
+        <h3 class="sidebar-heading px-3 mt-2 mb-3 font-weight-bold text-dark" style="font-size: 1.5rem;">
+            <i class="fas fa-filter mr-2"></i>ФИЛЬТРЫ
+        </h3>
+
+        <div class="px-2">
+            <!-- Подкатегории -->
+            <div class="filter-card compact mb-3">
+                <div class="filter-header compact-header bg-primary text-white">
+                    <h5 class="mb-0 py-1 px-2" style="font-size: 1.2rem;">
+                        <i class="fas fa-list-alt mr-1"></i>Подкатегории
+                    </h5>
+                </div>
+                <div class="filter-body compact-body p-2">
+                    {% for category in categories %}
+                        <div class="mb-1">
+                            <a href="?type={{ category.slug }}" class="filter-link" style="font-size: 1.1rem;">
+                                <i class="fas fa-angle-right mr-1"></i>{{ category.title|truncatechars:50 }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Сортировка -->
+            {% for key in data %}
+            <div class="filter-card compact mb-3">
+                <div class="filter-header compact-header bg-info text-white">
+                    <h6 class="mb-0 py-1 px-2" style="font-size: 1.2rem;">
+                        <i class="fas fa-sort mr-1"></i> {{ key.title }}
+                    </h6>
+                </div>
+                <div class="filter-body compact-body p-2">
+                    {% for sorter in key.sorters %}
+                        <div class="mb-1">
+                            <a href="?sort={{ sorter.0 }}" class="filter-link compact-link" style="font-size: 1.1rem;">
+                                <i class="fas fa-chevron-right mr-1"></i>{{ sorter.1|truncatechars:20 }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .filter-card.compact {
+        border-radius: 6px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    }
+    
+    .compact-header {
+        padding: 0.25rem 0.5rem !important;
+    }
+    
+    .compact-body {
+        padding: 0.5rem !important;
+    }
+    
+    .compact-link {
+        font-size: 0.85rem;
+        padding: 0.15rem 0 !important;
+    }
+    
+    .filter-header.compact-header {
+        font-size: 0.9rem;
+    }
+    
+    .filter-card.compact .filter-link:hover {
+        transform: translateX(3px);
+    }
+    
+    .sidebar-heading {
+        font-size: 0.95rem;
+        letter-spacing: 0.3px;
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 8px;
+    }
+    
+    /* Остальные стили оставляем как были */
+    .filter-card {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .filter-header {
+        background: linear-gradient(135deg, #6c8cd5 0%, #3b5998 100%);
+    }
+    
+    .filter-header.bg-info {
+        background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    }
+    
+    .filter-body {
+        background-color: white;
+        border: 1px solid #e9ecef;
+        border-top: none;
+    }
+    
+    .filter-link {
+        color: #495057;
+        text-decoration: none;
+        transition: all 0.2s;
+        display: block;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
